@@ -18,13 +18,21 @@
 
 #include <ESP8266mDNS.h> // Note: For ESP32 use ESPmDNS.h if needed
 
+
+// ----- Sensor Libraries, Global Variables/Constants & Sensor Definitions ----- 
+
 // Add sensor-specific libraries (START)
+
+// [INSERT LIBRARY DECLARATIONS HERE]
 
 // Add sensor-specific libraries (END)
 
-// Add sensor-specific global variables and objects (START)
 
-// Add sensor-specific global variables and objects (END)
+// Add global variables and constants for the sensing logic (START)
+
+// [INSERT YOUR SENSOR VARIABLES HERE]
+
+// Add global variables and constants for the sensing logic (END)
 
 // --- Configuration Constants ---
 // Default AP and MESH settings for configuration mode
@@ -157,8 +165,10 @@ void setup() {
         Serial.printf("Node ID: %ld, Coordinator ID: %ld, Duty Cycle: %ld seconds\n",
                       config.nodeID, config.coordinatorID, config.dutyCycle);
         
-        // ----- Initialization & Device Discovery -----
+        // ----- Initialization -----
         // Initialize sensor variables, objects, etc. (START)
+
+        // [INSERT YOUR SENSOR SETUP CODE HERE]
 
         // Initialize sensor variables, objects, etc. (END)
         
@@ -209,9 +219,11 @@ void setup() {
             meshInit();
             Serial.println("Mesh created..");
         }
-
+        // ----- Device Discovery -----  
         // Execute sensor setup and device discovery (START)
 
+        // [INSERT YOUR SENSOR DISCOVERY CODE HERE]
+        
         // Execute sensor setup and device discovery (END)
             
         Serial.printf("Setting the duty cycle to %ld seconds", config.dutyCycle);
@@ -362,7 +374,7 @@ void handleRoot() {
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESP8266 Mesh Node Configuration</title>
+    <title>ESP Mesh Node Configuration</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
@@ -383,9 +395,11 @@ void handleRoot() {
         <form action="/submit" method="POST" id="configForm">
             <div class="section-title">Mesh Node Setting</div>
             <div class="radio-group mb-4">
-                <input type="radio" name="nodeType" value="router" id="routerRadio" checked> Router
-                &nbsp &nbsp &nbsp &nbsp
-                <input type="radio" name="nodeType" value="coordinator" id="coordinatorRadio"> Gateway/Bridge
+                
+                <input type="radio" name="nodeType" value="coordinator" id="coordinatorRadio" checked> Bridge Node
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <input type="radio" name="nodeType" value="router" id="routerRadio" > Router Node
+                
             </div>
             
             <div id="coordinator" class="hidden">        
@@ -410,13 +424,13 @@ void handleRoot() {
             <input type="number" id="channelId" name="channelId" value="1">
             (<i>Note</i>: Only fill this out if set as a router. It must be the same channel used by the coordinator/gateway.)
             
+            
             <div class="section-title">Node Information</div>
             <b>Node ID (Numeric):</b>
             <input type="number" id="nodeId" name="nodeId" required value="1">
-            <div class="section-title">Gateway Node Information</div>
-            <b>Gateway Node ID (Numeric):</b>
-            <input type="number" id="coordinatorId" name="coordinatorId" required value="0">
-                        
+            <b>Sensing Interval (Seconds):</b>
+            <input type="number" id="dutyCycle" name="dutyCycle" required value="10">
+            
             <div id="mqtt" class="hidden">     
                 <div class="section-title">MQTT Information</div>
                 <b>Host:</b>
@@ -437,11 +451,8 @@ void handleRoot() {
                 <b>Subscribe Topic:</b>
                 <input type="text" id="mqttSubscribeTopic" name="mqttSubscribeTopic" value="mesh/cmd">
             </div>
-
-            <div class="section-title">Common Settings</div>
-            <b>Sensing Interval (Seconds):</b>
-            <input type="number" id="dutyCycle" name="dutyCycle" required value="10">
-
+            
+            
             <button class="button" type="submit">OK</button>
         </form>
     </div>
@@ -506,7 +517,8 @@ void handleSubmit() {
             if (server.hasArg("meshPassword")) strncpy(config.meshPassword, server.arg("meshPassword").c_str(), sizeof(config.meshPassword) - 1);
             if (server.hasArg("meshPort")) config.meshPort = server.arg("meshPort").toInt();
             if (server.hasArg("nodeId")) config.nodeID = server.arg("nodeId").toInt();
-            if (server.hasArg("coordinatorId")) config.coordinatorID = server.arg("coordinatorId").toInt();
+            //if (server.hasArg("coordinatorId")) config.coordinatorID = server.arg("coordinatorId").toInt();
+            config.coordinatorID = 0;
             if (server.hasArg("channelId")) config.channelId = server.arg("channelId").toInt();
             Serial.printf("Configuring as Router. Node ID: %ld, Coordinator ID: %ld\n", config.nodeID, config.coordinatorID);
         } else if (nodeType == "coordinator") {
@@ -516,7 +528,8 @@ void handleSubmit() {
             if (server.hasArg("meshSsid")) strncpy(config.meshSSID, server.arg("meshSsid").c_str(), sizeof(config.meshSSID) - 1);
             if (server.hasArg("meshPassword")) strncpy(config.meshPassword, server.arg("meshPassword").c_str(), sizeof(config.meshPassword) - 1);
             if (server.hasArg("meshPort")) config.meshPort = server.arg("meshPort").toInt();
-            if (server.hasArg("coordinatorId")) config.coordinatorID = server.arg("coordinatorId").toInt();
+            //if (server.hasArg("coordinatorId")) config.coordinatorID = server.arg("coordinatorId").toInt();
+            config.coordinatorID = 0;
             config.nodeID = config.coordinatorID; // Coordinator's node ID is its coordinator ID
             if (server.hasArg("mqttHost")) strncpy(config.mqttHost, server.arg("mqttHost").c_str(), sizeof(config.mqttHost) - 1);
             if (server.hasArg("mqttPort")) config.mqttPort = server.arg("mqttPort").toInt();
@@ -786,6 +799,8 @@ String getSensorData() {
 
     // ----- Data Acquisition & Sensing Logic ----- 
     // Read sensor data (START)
+
+    // [INSERT SENSOR READING LOGIC HERE]
 
     // Read sensor data (END)
         
