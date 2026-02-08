@@ -8,12 +8,12 @@ A key component in BEMS is the ability to have fine-grained monitoring of a buil
 
 In most cases, the mesh network topology (see Figure 1) is preferred for its wider coverage and ability to navigate sensing areas with many obstructions, which is common in smart buildings. This sketch is intended for nodes of a mesh composed of:
 
-<img src="images/iot_wsn.png" alt="iot_wsn" width="400"/>
-Figure 1. Mesh Network Topology
-
 * **Router Nodes**: Sense data at a pre-defined interval and send it to the bridge node through multi-hop communication.
 
 * **Bridge Node**: Connected to the internet through a WiFi gateway. It publishes its own data and the data received from other nodes in the mesh to an MQTT topic.
+
+<img src="images/iot_wsn.png" alt="iot_wsn" width="400"/>
+Figure 1. Mesh Network Topology
 
 The Challenge & Solution
 
