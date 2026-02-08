@@ -15,9 +15,10 @@ In most cases, the mesh network topology (see Figure 1 above) is preferred for i
 * **Bridge Node**: Connected to the internet through a WiFi gateway. It publishes its own data and the data received from other nodes in the mesh to an MQTT topic.
 
 The Challenge & Solution
+
 One of the main challenges in deploying such meshes is adaptability. There is a need for nodes that can easily adapt to changing environments (e.g., changing WiFi credentials, API support) and are easily programmable for different sensing requirements.
 
-This work introduces NexMesh, an architecture based on the painlessMesh library that decouples the sensing component of a node from its network configuration. This allows for fast, field-configurable deployment of mesh WSNs that connect to the cloud via MQTT. This is accomplished by dividing the architecture into two components:
+This work introduces ***NexMesh***, an architecture based on the [painlessMesh](https://github.com/gmag11/painlessMesh/tree/master) library that decouples the sensing component of a node from its network configuration. This allows for fast, field-configurable deployment of mesh WSNs that connect to the cloud via MQTT. This is accomplished by dividing the architecture into two components:
 
 1. **Sensing Logic (Pre-deployment)**: Programmed once. Ideally, this is the only component where the user adds sensor-specific functionalities.
 
@@ -66,7 +67,9 @@ During deployment, nodes are assigned IDs, roles, and sensing intervals. Nodes c
 3. Open a browser and navigate to: http://192.168.4.1.
 4. The Web UI configuration page will load.
 
-**Configuration A: Bridge Node**
+**Configuration A: Bridge Node** (Figure 2)
+
+<img src="images/ui.png" alt="Alt text for the image" align="right" width="300"/>
 
 By default, the Bridge Node configuration is selected in the UI. A Bridge connects to a WiFi gateway to reach the internet.
 1. WiFi Credentials: Enter the SSID and Password for the building's WiFi Gateway.
@@ -79,7 +82,7 @@ By default, the Bridge Node configuration is selected in the UI. A Bridge connec
 
 Click OK. The ESP will save settings to EEPROM and display a reply message. Note: For ESP8266, this reply displays the Channel used by the gateway, which is required for configuring Router nodes.
 
-**Configuration B: Router Node**
+**Configuration B: Router Node** (Figure 3)
 
 To configure a node as a Router, select the Router Node radio button. The form will update (WiFi and MQTT sections will be hidden).
 1. Mesh Credentials: Input the exact same Mesh SSID and Password as the Bridge node.
